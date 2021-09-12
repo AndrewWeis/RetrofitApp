@@ -21,10 +21,14 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
+        val options: HashMap<String, String> = HashMap()
+        options["_sort"] = "id"
+        options["_order"] = "desc"
+
         button.setOnClickListener{
             val myNumber = number_editText.text.toString()
-            viewModel.getCustomPosts(Integer.parseInt(myNumber), "id", "desc")
-            viewModel.myCustomPosts.observe(this, Observer { response ->
+            viewModel.getCustomPosts2(Integer.parseInt(myNumber), options)
+            viewModel.myCustomPosts2.observe(this, Observer { response ->
                 if (response.isSuccessful) {
                     textView.text = response.body().toString()
                     response.body()?.forEach {
