@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofit.adapter.MyAdapter
+import com.example.retrofit.model.Post
 import com.example.retrofit.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -42,6 +43,18 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+
+        val myPost = Post(2, 2, "Andrew", "Hello world")
+        viewModel.pushPost(myPost)
+        viewModel.myResponse.observe(this, Observer { response ->
+            if (response.isSuccessful) {
+                Log.d("Main", response.body().toString())
+                Log.d("Main", response.code().toString())
+                Log.d("Main", response.message())
+            } else {
+                Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupRecyclerview() {

@@ -22,6 +22,13 @@ class MainViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
+    fun pushPost(post: Post) {
+        viewModelScope.launch {
+            val response = repository.pushPost(post)
+            myResponse.value = response
+        }
+    }
+
     fun getPost2(number: Int) {
         viewModelScope.launch {
             val response = repository.getPost2(number)
