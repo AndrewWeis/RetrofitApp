@@ -2,6 +2,7 @@ package com.example.retrofit
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.retrofit.repository.Repository
@@ -22,10 +23,17 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener{
             val myNumber = number_editText.text.toString()
-            viewModel.getPost2(Integer.parseInt(myNumber))
-            viewModel.myResponse2.observe(this, Observer { response ->
+            viewModel.getCustomPosts(Integer.parseInt(myNumber))
+            viewModel.myCustomPosts.observe(this, Observer { response ->
                 if (response.isSuccessful) {
                     textView.text = response.body().toString()
+                    response.body()?.forEach {
+                        Log.d("Response", it.myUserId.toString())
+                        Log.d("Response", it.id.toString())
+                        Log.d("Response", it.title)
+                        Log.d("Response", it.body)
+                        Log.d("Response", "-------------------")
+                    }
                 } else {
                     textView.text = response.code().toString()
                 }
